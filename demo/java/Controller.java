@@ -19,6 +19,7 @@ public class UserLoginController {
         if(ciphertext==null){
             return "ERROR";
         }
+        session.removeAttribute("LOGIN_CIPHERTEXT_KEY");
         if (!ciphertext.getPrivateKey().equals(form.getCiphertext())) {
             return "ERROR";
         }
