@@ -19,8 +19,8 @@
 ```
     randomString = Utils.getUUID();
     randomNumber = Utils.randomInt(range);
-    publicText =  randomString + Utils.md5(randomString+randomNumber);
-    privateText = Utils.md5(randomNumber+randomString);
+    privateText =  randomString + Utils.md5(randomString+randomNumber);
+    privateKey = Utils.md5(randomNumber+randomString);
 ```
 - 将密文传给前端
 - 前端通过循环破解随机数
