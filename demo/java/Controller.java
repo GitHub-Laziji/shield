@@ -10,7 +10,7 @@ public class UserLoginController {
             ciphertext = new Ciphertext();
         }
         session.setAttribute(LOGIN_CIPHERTEXT_KEY);
-        return ciphertext.getPublicText();
+        return ciphertext.getPrivateText();
     }
 
     @RequestMapping("login")
@@ -19,7 +19,7 @@ public class UserLoginController {
         if(ciphertext==null){
             return "ERROR";
         }
-        if (!ciphertext.getPrivateText().equals(form.getCiphertext())) {
+        if (!ciphertext.getPrivateKey().equals(form.getCiphertext())) {
             return "ERROR";
         }
         // TODO 

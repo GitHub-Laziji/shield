@@ -4,8 +4,8 @@ public class Ciphertext {
     private int range;
     private String randomString;
     private int randomNumber;
-    private String publicText;
     private String privateText;
+    private String privateKey;
 
     public Ciphertext(){
         this(10000);
@@ -16,18 +16,18 @@ public class Ciphertext {
         init();
     }
 
-    public String getPublicText() {
-        return publicText;
-    }
-
     public String getPrivateText() {
         return privateText;
+    }
+
+    public String getPrivateKey() {
+        return privateKey;
     }
 
     private void init(){
         randomString = Utils.getUUID();
         randomNumber = Utils.randomInt(range);
-        publicText =  randomString + Utils.md5(randomString+randomNumber);
-        privateText = Utils.md5(randomNumber+randomString);
+        privateText =  randomString + Utils.md5(randomString+randomNumber);
+        privateKey = Utils.md5(randomNumber+randomString);
     }
 }
