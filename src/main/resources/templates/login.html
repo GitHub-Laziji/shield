@@ -1,0 +1,52 @@
+<!DOCTYPE html>
+<!--suppress ALL-->
+<html xmlns:th="http://www.thymeleaf.org">
+<head>
+    <title>login</title>
+</head>
+<body>
+<form id="form" action="/submit">
+    username <input name="username"><br>
+    password <input name="password"><br>
+    <button type="submit">submit</button>
+</form>
+
+<script src="http://cdn.staticfile.org/jquery/3.3.1/jquery.min.js"></script>
+<script src="http://cdn.staticfile.org/jquery.form/4.2.2/jquery.form.min.js"></script>
+<script src="https://cdn.staticfile.org/crypto-js/3.1.9-1/crypto-js.js"></script>
+<script>
+    let captcha;
+
+    function getCaptcha() {
+        $.ajax({
+            url: "/captcha",
+            success: function (data) {
+                captcha = data
+            }
+        });
+    }
+
+    $('#form').ajaxForm({
+        beforeSubmit: function (data) {
+            let randomString = captcha.substring(0, 32);
+            let valueString = captcha.substring(32);
+            for (let i = 0; i < 10000; i++) {
+                let s = CryptoJS.MD5(randomString + i);
+                if (s == valueString) {
+                    let privateKey = CryptoJS.MD5(i + randomString);
+                    data.push({name: "captcha", value: privateKey});
+                    console.log(captcha+", "+privateKey+", "+i);
+                    return true;
+                }
+            }
+            return false;
+        },
+        success: function (data) {
+            alert(data);
+            getCaptcha();
+        }
+    });
+    getCaptcha();
+</script>
+</body>
+</html>
